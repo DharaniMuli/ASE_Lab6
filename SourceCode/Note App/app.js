@@ -27,16 +27,16 @@ const emailOptions = {
 const argv =  yargs
 
     .command('add','Add a new customer',{
-      customer_id: idOptions,
-      customer_name: nameOptions,
-      customer_email:emailOptions
+        customer_id: idOptions,
+        customer_name: nameOptions,
+        customer_email:emailOptions
     })
     .command('list','List all customers')
     .command('read','Read a note',{
-      customer_id: idOptions
+        customer_id: idOptions
     })
     .command('remove','Remove a customer',{
-     customer_id: idOptions
+        customer_id: idOptions
     })
     .help()
     .argv;
@@ -51,24 +51,50 @@ var command = argv._[0];
 if (command === 'add'){
     var customer = customers.addCustomer(argv.id,argv.name,argv.email);
     if (customer){
-      customers.logCustomer(customer);
+        customers.logCustomer(customer);
     } else{
-      console.log("Customer already exists");
+        console.log("Customer already exists");
     }
 }
 
+else if (command === 'list') {
+    var AllCustomers = customers.getAll();
+    console.log(`Printing ${AllCustomers.length} customer(s).`);
+    AllCustomers.forEach((customer)=>{
+        customers.logCustomer(customer);
+    });
+}
 
+else if (command === 'read') {
+    var customer = customers.getCustomer(argv.id);
+    if(customer){
+        customers.logCustomer(customer);
+    }
+    else{
+        console.log("Customer not found");
+    }
+}
+
+else if (command === 'remove') {
+    var customer = customers.remove(argv.id);
+    if(customer){
+        console.log("Customer removed successfully");
+    }
+    else{
+        console.log("Customer not found");
+    }
+}
 
 else if (command === 'update') {
-   var customer = customers.update(argv.id, argv.name,argv.email);
-   if(customer){
-    console.log("Customer Updated successfully");
-          }
-   else{
-    console.log("Customer not found");
-   }
+    var customer = customers.update(argv.id, argv.name,argv.email);
+    if(customer){
+        console.log("Customer Updated successfully");
+    }
+    else{
+        console.log("Customer not found");
+    }
 }
 
 else{
-  console.log('command not recognized');
+    console.log('command not recognized');
 }
