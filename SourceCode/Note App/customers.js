@@ -1,5 +1,11 @@
 const fs =  require('fs');
 
+
+
+var saveCustomers = (customers) => {
+    fs.writeFileSync('customers.json',JSON.stringify(customers));
+};
+
 var fetchCustomers = () => {
     try {
         var customers = fs.readFileSync('customers.json')
@@ -8,12 +14,6 @@ var fetchCustomers = () => {
         return [];
     }
 };
-
-var saveCustomers = (customers) => {
-    fs.writeFileSync('customers.json',JSON.stringify(customers));
-};
-
-
 
 var addCustomer = (customer_id,customer_name, customer_email) => {
     var customers = fetchCustomers();
@@ -32,10 +32,10 @@ var addCustomer = (customer_id,customer_name, customer_email) => {
 };
 
 
+
 var getAll = () => {
     return fetchCustomers();
 };
-
 
 
 var getCustomer = (customer_id) => {
